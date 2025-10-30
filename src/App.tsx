@@ -5,6 +5,7 @@ import { DataApi, type BarangData } from "./data/data_api"
 import { TextInput } from "./components/TextInput"
 import { rpize } from "./data/utils"
 import { twMerge } from "tailwind-merge"
+import { SomethingWrong } from "./SomethingWrong"
 
 function App() {
     const [negaras, setNegaras] = useState<OptionItem[]>([])
@@ -25,6 +26,8 @@ function App() {
     const barang = useMemo(() => {
         return barangs.find(x => x.id_barang.toString() === selectedBarang)
     }, [selectedBarang, barangs])
+    
+    const [somethingWrong, setSomethingWrong] = useState(false)
     
     useEffect(() => {
         setDiscount(barang?.diskon ?? 0)
@@ -50,6 +53,7 @@ function App() {
             }))))
             .catch(e => {
                 console.log(e)
+                setSomethingWrong(true)
             })
             .finally(() => {
                 setNegaraLoading(false)
@@ -76,6 +80,7 @@ function App() {
             }))))
             .catch(e => {
                 console.log(e)
+                setSomethingWrong(true)
             })
             .finally(() => {
                 setPelabuhanLoading(false)
@@ -100,6 +105,7 @@ function App() {
             }))))
             .catch(e => {
                 console.log(e)
+                setSomethingWrong(true)
             })
             .finally(() => {
                 setBarangLoading(false)
@@ -111,6 +117,8 @@ function App() {
             <h2 className="text-2xl font-bold text-center text-primary-dark">Test Frontend Developer</h2>
             <h3 className="text-lg font-bold text-center text-gray-500">(Saiful Anwar)</h3>
         </div>
+        
+        <SomethingWrong show={somethingWrong}/>
         
         <SelectInput
             label="Negara"
